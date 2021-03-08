@@ -72,7 +72,7 @@
         onChange="cleanWordHTML()"
       ></div>
 
-      <div id="result"></div>
+      <div id="result" contenteditable="true"></div>
     </div>
     <script type="text/javascript">
       var editable = document.getElementById("wordContent");
@@ -80,6 +80,27 @@
         let preFormat = this.attributes.contenteditable.ownerElement.innerHTML;
         let formatter = cleanWordHTML(preFormat);
       });
+
+      
+      var editableResult = document.getElementById("result");
+      editableResult.addEventListener("input", function () {
+        copyResultToClipboard(document.getElementById("result").innerText);
+      });
+      
+
+      const copyResultToClipboard = (str) => {
+        document.getElementById("result").innerText = str;
+        navigator.clipboard.writeText(str).then(function () {            
+          document.getElementById("alert").innerText = "Result copied in clipboard";
+          document.getElementById("alert").classList="info";
+          setTimeout(() => {
+            document.getElementById("alert").innerText = "Paste word text in left area";
+            document.getElementById("alert").classList="";  
+          }, 5000);
+
+        });
+      }
+
       const cleanWordHTML = (str) => {
         str = str.replace(/<o:p>\s*<\/o:p>/g, "<br />");
         // str = str.replace(/<o:p>.*?<\/o:p>/g, "&nbsp;");
@@ -128,6 +149,11 @@
           "gi"
         );
         str = str.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '<br />');
+        str = str.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '');
+        str = str.replace(/<table[^>]*>/g, '').replace(/<\/table>/g, '');
+        str = str.replace(/<tbody[^>]*>/g, '').replace(/<\/tbody>/g, '');
+        str = str.replace(/<tr[^>]*>/g, '').replace(/<\/tr>/g, '');
+        str = str.replace(/<td[^>]*>/g, '').replace(/<\/td>/g, '');
         
         str = str.replace(/<a>/g, '').replace(/<\/a>/g, '');
         
@@ -138,16 +164,7 @@
 
         str = str.replace(/size|SIZE = ([\d]{1})/g, "");
         str =  "<p>" + str + "</p>";
-        document.getElementById("result").innerText = str;
-        navigator.clipboard.writeText(str).then(function () {            
-          document.getElementById("alert").innerText = "Result copied in clipboard";
-          document.getElementById("alert").classList="info";
-          setTimeout(() => {
-            document.getElementById("alert").innerText = "Paste word text in left area";
-            document.getElementById("alert").classList="";  
-          }, 5000);
-
-        });
+        copyResultToClipboard(str);
         return str;
       };
     </script>
