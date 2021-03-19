@@ -169,8 +169,7 @@
         str = str.replace(/<tbody[^>]*>/g, '').replace(/<\/tbody>/g, '');
         str = str.replace(/<tr[^>]*>/g, '').replace(/<\/tr>/g, '');
         str = str.replace(/<td[^>]*>/g, '').replace(/<\/td>/g, '');        
-        str = str.replace(/<a>/g, '').replace(/<\/a>/g, '');      
-        str = str.replace(/<a>/g, '').replace(/<\/a>/g, '');
+        str = str.replace(/<a>(.[^<]+)<\/a>/gi, "$1")
         str = str.replace(/(<br\s*\/?>){3,}/gi, '<br />');
         str = str.replace(re2, "<p$2</p>");
 
