@@ -135,6 +135,20 @@
         str = str.replace(/<H5([^>]*)>/gi, "");
         str = str.replace(/<H6([^>]*)>/gi, "");
         str = str.replace(/<\/H\d>/gi, "<br />"); //remove this to take out breaks where Heading tags were
+        str = str.replace(/<p(.*?)class="?'?MsoListParagraph"?'? ([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ul><li>$3</li></ul>"); 
+        str = str.replace(/<p(.*?)class="?'?NumberedText"?'? ([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ol><li>$3</li></ol>"); 
+        str = str.replace(/<p(.*?)class="?'?MsoListParagraphCxSpFirst"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ul><li$3>$5</li>");
+        str = str.replace(/<p(.*?)class="?'?NumberedTextCxSpFirst"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ol><li$3>$5</li>");
+        str = str.replace(/<p(.*?)class="?'?MsoListParagraphCxSpMiddle"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<li$3>$5</li>");
+        str = str.replace(/<p(.*?)class="?'?NumberedTextCxSpMiddle"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<li$3>$5</li>"); 
+        str = str.replace(/<p(.*?)class="?'?MsoListParagraphCxSpLast"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<li$3>$5</li></ul>"); 
+        str = str.replace(/<p(.*?)class="?'?NumberedTextCxSpLast"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<li$3>$5</li></ol>"); 
+        str = str.replace(/<span([^<]*?)style="?'?mso-list:Ignore"?'?([\s\S]*?)>([\s\S]*?)<span/gi, "<span><span"); 
+        str = str.replace(/<!--\[if \!supportLists\]-->([\s\S]*?)<!--\[endif\]-->/gi, ""); 
+        str = str.replace(/<!\[if \!supportLists\]>([\s\S]*?)<!\[endif\]>/gi, ""); 
+        str = str.replace(/(\n|\r| class=(")?Mso[a-zA-Z0-9]+(")?)/gi, " "); 
+        str = str.replace(/<!--[\s\S]*?-->/gi, ""); 
+        str = str.replace(/<(\/)*(meta|link|span|\\?xml:|st1:|o:|font)(.*?)>/gi, "");
         str = str.replace(/<\/ul([^>]*)>/gi, "</ul>x---rn---xx---rn---x");
         str = str.replace(/<ul([^>]*)>/gi, "<ul>x---rn---x");
         str = str.replace(/<\/li([^>]*)>/gi, "</li>x---rn---x");
