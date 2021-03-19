@@ -148,11 +148,7 @@
         str = str.replace(/<H4([^>]*)>/gi, "");
         str = str.replace(/<H5([^>]*)>/gi, "");
         str = str.replace(/<H6([^>]*)>/gi, "");
-        str = str.replace(/<\/H\d>/gi, "<br />"); //remove this to take out breaks where Heading tags were        
-        str = str.replace(/<\/ul([^>]*)>/gi, "</ul>x---rn---xx---rn---x");
-        str = str.replace(/<ul([^>]*)>/gi, "<ul>x---rn---x");
-        str = str.replace(/<\/li([^>]*)>/gi, "</li>x---rn---x");
-        str = str.replace(/<LI([^>]*)>/gi, "<li>");                
+        str = str.replace(/<\/H\d>/gi, "<br />"); //remove this to take out breaks where Heading tags were                             
         str = str.replace(/<(U|I|STRIKE)>&nbsp;<\/\1>/g, "");
         str = str.replace(/<(B|b)>&nbsp;<\/\b|B>/g, "");
         str = str.replace(/&nbsp;/g, "");
@@ -171,11 +167,8 @@
         str = str.replace(/<table[^>]*>/g, '').replace(/<\/table>/g, '');
         str = str.replace(/<tbody[^>]*>/g, '').replace(/<\/tbody>/g, '');
         str = str.replace(/<tr[^>]*>/g, '').replace(/<\/tr>/g, '');
-        str = str.replace(/<td[^>]*>/g, '').replace(/<\/td>/g, '');
-        
-        str = str.replace(/<a>/g, '').replace(/<\/a>/g, '');
-        
-
+        str = str.replace(/<td[^>]*>/g, '').replace(/<\/td>/g, '');        
+        str = str.replace(/<a>/g, '').replace(/<\/a>/g, '');      
         str = str.replace(/<a>/g, '').replace(/<\/a>/g, '');
         str = str.replace(/(<br\s*\/?>){3,}/gi, '<br />');
         str = str.replace(re2, "<p$2</p>");
