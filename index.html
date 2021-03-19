@@ -117,6 +117,7 @@
         str = str.replace(/(\n|\r| class=(")?Mso[a-zA-Z0-9]+(")?)/gi, " "); 
         str = str.replace(/<!--[\s\S]*?-->/gi, ""); 
         str = str.replace(/<(\/)*(meta|link|span|\\?xml:|st1:|o:|font)(.*?)>/gi, "");
+        str = str.replace(/·/g, "");
         str = str.replace(/<o:p>.*?<\/o:p>/g, "&nbsp;");
         str = str.replace(/\s*mso-[^:]+:[^;"]+;?/gi, "");
         str = str.replace(/\s*MARGIN: 0cm 0cm 0pt\s*;/gi, "");
