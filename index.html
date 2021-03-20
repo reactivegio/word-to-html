@@ -103,20 +103,33 @@
 
       const cleanWordHTML = (str) => {
         //str = str.replace(/<o:p>\s*<\/o:p>/g, "<br />");
-        str = str.replace(/<p(.*?)class="?'?MsoListParagraph"?'? ([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ul><li>$3</li></ul>"); 
-        str = str.replace(/<p(.*?)class="?'?NumberedText"?'? ([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ol><li>$3</li></ol>"); 
-        str = str.replace(/<p(.*?)class="?'?MsoListParagraphCxSpFirst"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ul><li$3>$5</li>");
-        str = str.replace(/<p(.*?)class="?'?NumberedTextCxSpFirst"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ol><li$3>$5</li>");
-        str = str.replace(/<p(.*?)class="?'?MsoListParagraphCxSpMiddle"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<li$3>$5</li>");
-        str = str.replace(/<p(.*?)class="?'?NumberedTextCxSpMiddle"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<li$3>$5</li>"); 
-        str = str.replace(/<p(.*?)class="?'?MsoListParagraphCxSpLast"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<li$3>$5</li></ul>"); 
-        str = str.replace(/<p(.*?)class="?'?NumberedTextCxSpLast"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<li$3>$5</li></ol>"); 
-        str = str.replace(/<span([^<]*?)style="?'?mso-list:Ignore"?'?([\s\S]*?)>([\s\S]*?)<span/gi, "<span><span"); 
-        str = str.replace(/<!--\[if \!supportLists\]-->([\s\S]*?)<!--\[endif\]-->/gi, ""); 
-        str = str.replace(/<!\[if \!supportLists\]>([\s\S]*?)<!\[endif\]>/gi, ""); 
-        str = str.replace(/(\n|\r| class=(")?Mso[a-zA-Z0-9]+(")?)/gi, " "); 
-        str = str.replace(/<!--[\s\S]*?-->/gi, ""); 
-        str = str.replace(/<(\/)*(meta|link|span|\\?xml:|st1:|o:|font)(.*?)>/gi, "");
+        let totalNormalParagraph = str.match(/MsoNormal/g).length;
+        for(let i=0; i < totalNormalParagraph; i++){                
+          str = str.replace(/<p class="MsoNormal" ([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/im, '$1<div>$4</div>');              
+        }
+        let totalList = str.match(/MsoListParagraphCxSpFirst/g);
+        let matchList = str.match(/<p(.*?)class="?'?MsoListParagraphCxSpFirst"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi);
+        for(let i=0; i < totalList.length; i++){               
+          /* oreder or unorderd */
+          let tagOrderOrNot = matchList[i].match(/1\./g) ? "ol" : "ul";
+          str = str.replace(/<p(.*?)class="?'?MsoListParagraphCxSpFirst"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/im, "<" + tagOrderOrNot + "><li$4>$5</li>");        
+          str = str.replace(/<p(.*?)class="?'?MsoListParagraphCxSpMiddle"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/im, "<li$4>$5</li>");
+          str = str.replace(/<p(.*?)class="?'?MsoListParagraphCxSpLast"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/im, "<li>$5</li></"+tagOrderOrNot+">");
+        }
+        
+        // str = str.replace(/<p(.*?)class="?'?MsoListParagraph"?'? ([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ul><li>$3</li></ul>");         
+        // str = str.replace(/<p(.*?)class="?'?NumberedText"?'? ([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ol><li>$3</li></ol>");         
+        // str = str.replace(/<p(.*?)class="?'?NumberedTextCxSpFirst"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ol><li$3>$5</li>");
+        
+        // str = str.replace(/<p(.*?)class="?'?NumberedTextCxSpMiddle"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<li$3>$5</li>"); 
+        // str = str.replace(/<p(.*?)class="?'?MsoListParagraphCxSpLast"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<li$3>$5</li></ul>"); 
+        // str = str.replace(/<p(.*?)class="?'?NumberedTextCxSpLast"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<li$3>$5</li></ol>"); 
+        // str = str.replace(/<span([^<]*?)style="?'?mso-list:Ignore"?'?([\s\S]*?)>([\s\S]*?)<span/gi, "<span><span"); 
+        // str = str.replace(/<!--\[if \!supportLists\]-->([\s\S]*?)<!--\[endif\]-->/gi, ""); 
+        // str = str.replace(/<!\[if \!supportLists\]>([\s\S]*?)<!\[endif\]>/gi, ""); 
+        // str = str.replace(/(\n|\r| class=(")?Mso[a-zA-Z0-9]+(")?)/gi, " "); 
+        // str = str.replace(/<!--[\s\S]*?-->/gi, ""); 
+        // str = str.replace(/<(\/)*(meta|link|span|\\?xml:|st1:|o:|font)(.*?)>/gi, "");
         str = str.replace(/·/g, "");
         str = str.replace(/<o:p>.*?<\/o:p>/g, "&nbsp;");
         str = str.replace(/\s*mso-[^:]+:[^;"]+;?/gi, "");
@@ -168,9 +181,10 @@
         str = str.replace(/<table[^>]*>/g, '').replace(/<\/table>/g, '');
         str = str.replace(/<tbody[^>]*>/g, '').replace(/<\/tbody>/g, '');
         str = str.replace(/<tr[^>]*>/g, '').replace(/<\/tr>/g, '');
-        str = str.replace(/<td[^>]*>/g, '').replace(/<\/td>/g, '');        
+        str = str.replace(/<td[^>]*>/g, '').replace(/<\/td>/g, '');
+        str = str.replace(/<div[^>]*>/g, '').replace(/<\/div>/g, '<br />');        
         str = str.replace(/<a>(.[^<]+)<\/a>/gi, "$1")
-        str = str.replace(/(<br\s*\/?>){3,}/gi, '<br />');
+        str = str.replace(/(<br\s*\/?>){2,}/gi, '<br />');
         str = str.replace(re2, "<p$2</p>");
 
         str = str.replace(/size|SIZE = ([\d]{1})/g, "");
