@@ -103,11 +103,11 @@
 
       const cleanWordHTML = (str) => {
         //str = str.replace(/<o:p>\s*<\/o:p>/g, "<br />");
-        let totalNormalParagraph = str.match(/MsoNormal/g).length;
+        let totalNormalParagraph = str.match(/MsoNormal/g).length | 0;
         for(let i=0; i < totalNormalParagraph; i++){                
           str = str.replace(/<p class="MsoNormal" ([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/im, '$1<div>$4</div>');              
         }
-        let totalList = str.match(/MsoListParagraphCxSpFirst/g);
+        let totalList = str.match(/MsoListParagraphCxSpFirst/g) | [];
         let matchList = str.match(/<p(.*?)class="?'?MsoListParagraphCxSpFirst"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi);
         for(let i=0; i < totalList.length; i++){               
           /* oreder or unorderd */
