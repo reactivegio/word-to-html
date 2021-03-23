@@ -117,6 +117,9 @@
           str = str.replace(/<p(.*?)class="?'?MsoListParagraphCxSpLast"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/im, "<li>$5</li></"+tagOrderOrNot+">");
         }
         
+        str = str.replace(/<span(.*?)class="?'?MsoCommentReference"?'?>([\s\S]*?)<\/span>/ig, '');              
+        
+        
         // str = str.replace(/<p(.*?)class="?'?MsoListParagraph"?'? ([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ul><li>$3</li></ul>");         
         // str = str.replace(/<p(.*?)class="?'?NumberedText"?'? ([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ol><li>$3</li></ol>");         
         // str = str.replace(/<p(.*?)class="?'?NumberedTextCxSpFirst"?'?([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ol><li$3>$5</li>");
