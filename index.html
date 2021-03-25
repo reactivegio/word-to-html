@@ -195,6 +195,7 @@
 
         str = str.replace(/size|SIZE = ([\d]{1})/g, "");
         str = str.replace(/"([\s\S]*?)(level\d)?([\s\S]*?)"/g, "\\\"$3\\\"/"); 
+        str = str.replace(/<li>[0-9]./g, "<li>);
         str =  "<p>" + str + "</p>";
         copyResultToClipboard(str);
         return str;
