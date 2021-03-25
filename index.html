@@ -134,7 +134,7 @@
           str = str.replace(/<span class="?'?MsoCommentReference"?'? ([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/span>/im, "<br />");
         }
                     
-        str = replaceByRegex(str,/<span style="([\s\S]*?)(level\d)?([\s\S]*?)font-family: Symbol;">([\s\S]*?)>([\s\S]*?)<\/span>/g, '$3">');
+        str = replaceByRegex(str,/ (font-family: Symbol).*?;?'?>([\s\S]*?)<\/span>/g, '">');
         
         
         // str = str.replace(/<p(.*?)class="?'?MsoListParagraph"?'? ([\s\S]*?)>([\s\S]*?)<\/p>/gi, "<ul><li>$3</li></ul>");         
