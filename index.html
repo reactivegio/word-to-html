@@ -107,6 +107,8 @@
       const cleanWordHTML = (str) => {
         //str = str.replace(/<o:p>\s*<\/o:p>/g, "<br />");
         let totalNormalParagraph = str.match(/MsoNormal/g) ? str.match(/MsoNormal/g).length : 0;
+        str = replaceByRegex(str,/<a class="msocomanchor" ([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/a>/g, '');
+        
         /* Per problemi con la sostituzione globale procedo con il for*/ 
         for(let i=0; i < totalNormalParagraph; i++){                
           str = replaceByRegex(str,/<p class="MsoNormal" ([\s\S]*?)(level\d)?([\s\S]*?)>([\s\S]*?)<\/p>/im, '$1<div>$4</div>');          
